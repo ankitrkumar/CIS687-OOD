@@ -1,0 +1,2 @@
+:Compile.bat file for OOD Project 1- File Catalogue
+devenv FileCatalogue/FileCatalogue.sln /rebuild debug
