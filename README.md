@@ -2,6 +2,15 @@
 My project for OOD Coursework
 
 
+Project 1 - File Catalogue
+<br/>
+Project 2 - XML Document Parser
+<br/>
+Project 3 - To be updated
+<br/>
+Project 4 - TO be updated
+<br/>
+<br/>
 The MIT License (MIT)
 
 Copyright (c) [2015] [Ankit Kumar]
