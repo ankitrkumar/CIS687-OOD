@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <?xml-stylesheet type="text/css" href="style.css"?>
+  <!--XML test case -->
+  <LectureNote id="CSE681">
+    <title ankit="kumar">
+    </title>
+    <reference>
+      <title ankit="kumar">
+      </title>
+      <author>
+          Jeff Prosise
+        <note Company="Wintellect">
+          <hello>
+          </hello>
+        </note>
+      </author>
+      <publisher>
+          Microsoft Press
+      </publisher>
+      <date>
+          2002
+      </date>
+      <!--XML page -->
+      <page>
+          608
+      </page>
+    </reference>
+    <author id="refId">
+    </author>
+    <publisher>
+        Microsoft Press
+    </publisher>
+    <comment>
+        Description of PCDATA
+    </comment>
+    <hello>
+    </hello>
+  </LectureNote>

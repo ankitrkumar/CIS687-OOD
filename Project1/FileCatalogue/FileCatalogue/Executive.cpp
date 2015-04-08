@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 		{
 			FileMgr fm(path, ds);
 			cout << "\n\nPress ENTER to Exit OR any key to Continue  ";					//continue to accept input after ds is created
-			getline(cin, userInputText);
+			cin.get();
 			if (userInputText.empty())
 				break;
 			else
