@@ -1,0 +1,24 @@
+4 commands,
+upload file
+download file
+search text
+numberoffiles
+
+
+
+peer sends---- string-string-string-string-\n(when new line is received the peer should expect to receive bytes or strings)
+
+message constructor class, message interpreter
+
+snder class(mctor and mitpreter) - open file, construct header, create message, write -35minutes
+
+receiver clas
+ssending queue recieving querue
+
+receiver has a dispatcher
+
+filesystem class -maybe, 1to open the file( for file handling)
+
+send recv dispatcher threads
+
+recv thread send thread and each client thread and dispatcher threads
