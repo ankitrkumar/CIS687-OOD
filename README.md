@@ -6,7 +6,7 @@ Project 1 - File Catalogue
 <br/>
 Project 2 - XML Document Parser
 <br/>
-Project 3 - To be updated
+Project 3 - Message-Passing Communication
 <br/>
 Project 4 - TO be updated
 <br/>
