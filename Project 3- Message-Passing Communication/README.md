@@ -3,7 +3,7 @@ ReadMe for Message Passing Communication
 
 Commandline arguments to create a peer are as follows,
 
-start .\Socket\Debug\Executive.exe <srcPort> <destAddress> <destPort> <filePath>
+start .\Socket\Debug\Executive.exe \<srcPort\> \<destAddress\> \<destPort\> \<filePath\>
 
 
 
