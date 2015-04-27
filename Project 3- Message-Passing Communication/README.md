@@ -23,5 +23,5 @@ Req:7,
 To display the peer-to-peer communication,
 
 - I have transferred a file from Peer1-Peer2
-								 Peer2-Peer3
-								 Peer3-Peer1
+				 Peer2-Peer3
+				 Peer3-Peer1
