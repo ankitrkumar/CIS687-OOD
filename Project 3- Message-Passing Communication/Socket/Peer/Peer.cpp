@@ -20,7 +20,11 @@ Peer::Peer(std::string srcAdd_, size_t srcPort_)
 {
 	this->srcPort = srcPort_;
 	this->srcAdd = srcAdd_;
+	sender = new Sender();
 	recvr = new Receiver(Socket::IP4, srcPort);
+	dispatcher = new Dispatcher(sender->getSenderQ(), recvr->getRecvrQ());
+	dispatcher->start();
+	::Sleep(1000);
 	ApplicationHelpers::Verbose::show("\n Receiver initiated at port number: "+std::to_string(srcPort));
 }
 
@@ -33,23 +37,9 @@ void Peer::sendOverThread()
 //-----<Stop message enqueued after the entire file is sent>--------------------------------
 void Peer::finishSending()
 {
-	Message msg("SEND_STOP", "", "", 0, "", srcPort);
-	msg.createMessage();
-	Sender::addSenderQ(msg);
-
-	Message msg1("CLOSE_DISPATCHER", "", "", 0, "", srcPort);
-	msg.createMessage();
-	while (true)
-	{
-		if (Receiver::getRecvrQ().size() != 0)
-			Sleep(200);
-		else
-		{
-			Receiver::addRecvrQ(msg1);
-			break;
-		}
-			
-	}
+	//Message msg("SEND_STOP", "", "", 0, "", srcPort);
+	//msg.createMessage();
+	//sender->addSenderQ(msg);
 }
 
 //-----<Thread Method::Send the file>--------------------------------
@@ -58,7 +48,7 @@ void Peer::sendThreadFunc()
 	do{
 		try{
 			Message msg;
-			msg = Sender::rmSenderQ();
+			msg = sender->rmSenderQ();
 			std::unordered_map<std::string, std::string> msgHeader = msg.getMsgAttribs();
 			
 			if (msg.getCmd()== "SEND_STOP")
@@ -67,18 +57,20 @@ void Peer::sendThreadFunc()
 			}
 			else if (msg.getCmd() == "UPLOAD_FILE")
 			{
-				if (sender.connectPeer(msg.getDestAdd(), (int)msg.getDestPort()))
+				if (sender->connectPeer(msg.getDestAdd(), (int)msg.getDestPort()))
 				{
-					if (sender.sendFile(msg))
-						ApplicationHelpers::Verbose::show("\n Uploading File " + msg.getFileName());
+					if (sender->sendFile(msg))
+					{
+					//	ApplicationHelpers::Verbose::show("\n Uploading File " + msg.getFileName());
+					}
 				}
 				else
 					ApplicationHelpers::Verbose::show("\n Sender connection returned false.");
 			}
 			else if (msg.getCmd() == "SEND_ACK")
 			{
-				if (sender.connectPeer(msg.getDestAdd(),(int)msg.getDestPort()))
-					sender.parseAndSendHeader(msg);
+				if (sender->connectPeer(msg.getDestAdd(),(int)msg.getDestPort()))
+					sender->parseAndSendHeader(msg);
 			}
 
 		}
@@ -97,7 +89,7 @@ void Peer::enQMessage(std::string filepath, std::string srcAdd,std::string destA
 	Message msg("UPLOAD_FILE", filepath, this->srcAdd, srcPort, destAdd, destPort);
 	msg.createMessage();
 	ApplicationHelpers::Verbose::show("\nSending File: " + filepath + " to " + to_string(destPort));
-	Sender::addSenderQ(msg);
+	sender->addSenderQ(msg);
 }
 
 //-----<test_stub>--------------------------------

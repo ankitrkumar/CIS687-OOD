@@ -29,10 +29,10 @@ void ClientHandler::operator()(Socket& sock)
 			msg.createMessage();
 			if (msg.getCmd()== "SEND_ACK")
 			{
-				string s = "\n  Acknowledgement received from IP: " + msg.getSrcAdd() + " and port:" + to_string(msg.getSrcPort());
+				std::string s = "\n  Acknowledgement received from IP: " + msg.getSrcAdd() + " and port:" + std::to_string(msg.getSrcPort());
 				Verbose::show(s);
 			}			
-			//For strings alone
+			//For strings alone	
 			else if (msg.getCmd() == "SEND_STRING")
 				ApplicationHelpers::Verbose::show("\nString received: " + msg.getCmd() + "\n");
 
@@ -73,8 +73,8 @@ bool ClientHandler::getFile(Message msg, Socket& sock)
 	std::string opDirectory = "./DestFolder/";
 	opDirectory=FileSystem::Path::getFullFileSpec(opDirectory);
 	std::ofstream opFile(opDirectory + msg.getFileName(), std::ios::binary);
-	size_t bufferContent = 100;
-	Socket::byte buffer[100];
+	size_t bufferContent = 1000;
+	Socket::byte buffer[1000];
 	bufferContent = msg.getContLength();
 	bool ok;
 	if (sock.bytesWaiting() == 0)
@@ -87,10 +87,12 @@ bool ClientHandler::getFile(Message msg, Socket& sock)
 		
 		opFile.write(buffer, bufferContent);
 
-		if (bufferContent < 100)
+		if (bufferContent < 1000)
 		{
+			msg.setCmd("FU_COMPLETE");
+			msg.createMessage();
 			opFile.close();
-			Receiver::addRecvrQ(msg);
+			bQ.enQ(msg);
 			return true;
 		}
 		else if (sock.bytesWaiting() != 0)
@@ -100,7 +102,9 @@ bool ClientHandler::getFile(Message msg, Socket& sock)
 		}
 		else
 		{
-			Receiver::addRecvrQ(msg);
+			msg.setCmd("FU_COMPLETE");
+			msg.createMessage();
+			bQ.enQ(msg);
 			return true;
 		}
 	}

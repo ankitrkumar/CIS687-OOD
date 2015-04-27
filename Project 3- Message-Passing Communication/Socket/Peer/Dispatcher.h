@@ -7,17 +7,22 @@
 #include<string>
 #include"../Message/Message.h"
 #include "../ApplicationHelpers/AppHelpers.h"
-
+//#include"../Peer/Receiver.h"
+#include"Sender.h"
+#include"Receiver.h"
 using namespace std;
 
 class Dispatcher
 {
 public:
+	Dispatcher(BlockingQueue<Message>& sBQ_, BlockingQueue<Message>& rBQ_) : sBQ(sBQ_), rBQ(rBQ_){}
 	void start();		// starts a dispatcher worker thread that monitors
 	void dispatcherFunc();
+	void fileUpload(Message msg);
 private:
-
+	BlockingQueue<Message>& sBQ;
+	BlockingQueue<Message>& rBQ;
 };
-void fileUpload(Message msg);
+
 
 #endif

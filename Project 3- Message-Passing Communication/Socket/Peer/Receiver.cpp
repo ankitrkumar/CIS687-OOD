@@ -17,16 +17,15 @@
 #include "../ApplicationHelpers/AppHelpers.h"
 
 //-----<BlockingQueue for receiver>--------------------------------
-BlockingQueue<Message> Receiver::recvrQ;
+//BlockingQueue<Message> Receiver::recvrQ;
 
 //-----<Parametrized constructor>--------------------------------
-Receiver::Receiver(Socket::IpVer ipVer, int portNo)
+Receiver::Receiver(Socket::IpVer ipVer, int portNo) : clientHandler(recvrQ)
 {
 	socketListener = new SocketListener(portNo, ipVer);
 	socketListener->start(clientHandler);
-	dispatcher->start();
+	
 }
-
 
 //-----<Wrapper to remove from Receiver queue>----------------------------
 Message Receiver::rmRecvrQ()

@@ -59,8 +59,9 @@ public:
 	void finishSending();	//enqs stop message to terminate sender thread
 
 private:
-	Sender sender;	
+	Sender *sender;	
 	Receiver *recvr;
+	Dispatcher *dispatcher;
 	void sendThreadFunc();
 	int srcPort;
 	std::string srcAdd;

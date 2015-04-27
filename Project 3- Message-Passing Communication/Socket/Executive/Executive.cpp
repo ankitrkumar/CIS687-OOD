@@ -44,7 +44,7 @@ int main(int argc, char** args)
 			Peer peer_(srcAdd, std::stoi(srcPort));
 			peer_.enQMessage(srcFile, srcAdd, destAdd, std::stoi(destPort));
 			peer_.sendOverThread();
-			Sleep(5000);
+//			Sleep(5000);
 			peer_.finishSending();
 			std::cin.get();
 		}

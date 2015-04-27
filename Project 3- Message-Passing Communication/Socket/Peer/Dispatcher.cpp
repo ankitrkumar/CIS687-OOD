@@ -29,10 +29,11 @@ void Dispatcher::dispatcherFunc()
 	{
 		try
 		{
-			Message msg = Receiver::rmRecvrQ();
-			if (msg.getCmd() == "CLOSE_DISPATCHER")
+			Message msg = rBQ.deQ();
+			/*if (msg.getCmd() == "CLOSE_DISPATCHER")
 				break;
-			else
+			else*/ 
+			if(msg.getCmd() == "FU_COMPLETE")
 				fileUpload(msg);
 		}
 		catch (exception ex)
@@ -41,12 +42,12 @@ void Dispatcher::dispatcherFunc()
 		}
 	}
 }
-void fileUpload(Message msg)
+void Dispatcher::fileUpload(Message msg)
 {
 	ApplicationHelpers::Verbose::show("\nMessage from Dispatcher--File "+msg.getFileName()+" received!");
-	Message msg_("SEND_ACK", msg.getFileName(), msg.getSrcAdd(), msg.getSrcPort(), msg.getDestAdd(), msg.getDestPort());
+	Message msg_("SEND_ACK", msg.getFileName(), msg.getDestAdd(), msg.getDestPort(), msg.getSrcAdd(), msg.getSrcPort());
 	msg_.createMessage();
-	Sender::addSenderQ(msg_);
+	sBQ.enQ(msg_);
 }
 
 #ifdef TEST_DISPATCHER

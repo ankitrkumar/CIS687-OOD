@@ -14,7 +14,7 @@
 
 #include "Sender.h"
 
-BlockingQueue<Message> Sender::senderQ;
+//BlockingQueue<Message> Sender::senderQ;
 
 //-----<Wrapper to remove from Sender queue>----------------------------
 Message Sender::rmSenderQ()
@@ -63,7 +63,7 @@ bool Sender::sendFile(Message msg)
 		Verbose::show("\nFile not good...\n");
 		return false;
 	}
-	Socket::byte buffer[100];
+	Socket::byte buffer[1000];
 	std::streamoff bytesRead;
 	std::ifstream file(msg.getFileName(), std::ios::in | std::ios::binary);
 	if (file.is_open())
@@ -73,8 +73,8 @@ bool Sender::sendFile(Message msg)
 		file.seekg(0, std::ios::beg);
 		while (file.good())
 		{
-			file.read(buffer, min(100, remaining));
-			bytesRead = min(100, remaining);
+			file.read(buffer, min(1000, remaining));
+			bytesRead = min(1000, remaining);
 			msg.setContentLength((size_t)bytesRead);
 			msg.setFileName(filename);
 			msg.createMessage();
@@ -82,7 +82,7 @@ bool Sender::sendFile(Message msg)
 			parseAndSendHeader(msg);
 			socketConnector.send((size_t)bytesRead, buffer);
 			remaining -= bytesRead;
-			if (bytesRead < 100)
+			if (bytesRead < 1000)
 				break;
 		}
 		file.close();

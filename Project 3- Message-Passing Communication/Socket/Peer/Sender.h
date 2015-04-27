@@ -71,15 +71,15 @@ public:
 	Sender(){ };
 	bool connectPeer(std::string ip, size_t port);
 
-	static Message rmSenderQ();
-	static void addSenderQ(Message msg);
-	static BlockingQueue<Message>& getSenderQ(){ return senderQ; }
+	Message rmSenderQ();
+	void addSenderQ(Message msg);
+	BlockingQueue<Message>& getSenderQ(){ return senderQ; }
 
 	void parseAndSendHeader(Message msg);
 	bool sendFile(Message msg);
 
 private:
-	static BlockingQueue<Message> senderQ;
+	BlockingQueue<Message> senderQ;
 	SocketSystem socketSystem;
 	SocketConnecter socketConnector;
 	Message msg;

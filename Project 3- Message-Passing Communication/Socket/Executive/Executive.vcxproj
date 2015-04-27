@@ -99,6 +99,8 @@
     <ClInclude Include="..\Peer\Dispatcher.h" />
     <ClInclude Include="..\Peer\FileSystem.h" />
     <ClInclude Include="..\Peer\Peer.h" />
+    <ClInclude Include="..\Peer\Receiver.h" />
+    <ClInclude Include="..\Peer\Sender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

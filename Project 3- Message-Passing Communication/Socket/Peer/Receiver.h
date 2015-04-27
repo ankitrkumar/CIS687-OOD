@@ -44,27 +44,46 @@
 */
 
 
+#include "../Sockets/Sockets.h"
+#include "../Peer/FileSystem.h"
 #include "../BlockingQueue/BlockingQueue.h"
 #include "../Message/Message.h"
 #include "ClientHandler.h"
 #include "Dispatcher.h"
 
+class Receiver;
+class ClientHandler;
+
+class ClientHandler
+{
+public:
+	ClientHandler(BlockingQueue<Message>& bQ_) : bQ(bQ_){}
+	void operator()(Socket& socket_);
+	bool getFile(Message msg, Socket& socket);
+	Message getMsgHeader(Socket& socket);
+
+private:
+	BlockingQueue<Message>& bQ;
+};
+
+
+
 class Receiver
 {
 public:
 	Receiver(Socket::IpVer ipVer = Socket::IP6, int port = 9000);
-	static Message rmRecvrQ();
-	static void addRecvrQ(Message msg);
-	static BlockingQueue<Message>& getRecvrQ(){ return recvrQ; }
+	Message rmRecvrQ();
+	void addRecvrQ(Message msg);
+	BlockingQueue<Message>& getRecvrQ(){ return recvrQ; }
 
 private:
-	Dispatcher *dispatcher;
-	static BlockingQueue<Message> recvrQ;
+	BlockingQueue<Message> recvrQ;
 	SocketSystem socketSystem;
 	SocketListener *socketListener;
 	Message msg;
 	ClientHandler clientHandler;
 	
 };
+
 
 #endif
